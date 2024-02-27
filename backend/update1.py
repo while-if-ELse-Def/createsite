@@ -37,7 +37,7 @@ conn.close()
 # Создайте соединение
 conn = psycopg2.connect(
     dbname=dbname,
-    user="C",
+    user="postgres",
     password="postgres",
     host="localhost",
     port="5432"
@@ -47,21 +47,24 @@ conn = psycopg2.connect(
 cur = conn.cursor()
 
 # SQL-запросы для создания таблиц
+#cert_number VARCHAR(100) NOT NULL
 create_table_query1 = """
 CREATE TABLE certs (
     id SERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     price NUMERIC(10,2) NOT NULL,
     description VARCHAR(1000) NULL,
-    
+    photo VARCHAR(500) NOT NULL
 );
 """
 
 create_table_query2 = """
-CREATE TABLE table2 (
+CREATE TABLE sklad (
     id SERIAL PRIMARY KEY,
-    address VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) NOT NULL
+    cert_id INTEGER NOT NULL,
+    FOREIGN KEY (cert_id) REFERENCES certs(id),
+    count INTEGER NOT NULL
+
 );
 """
 
